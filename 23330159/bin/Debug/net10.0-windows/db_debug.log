@@ -1,0 +1,428 @@
+[2025-12-13 01:38:44] LoadUsers: using Oracle
+[2025-12-13 01:38:44] LoadUsers: query returned 0 rows
+[2025-12-13 01:38:56] LoadUsers: using Oracle
+[2025-12-13 01:38:56] LoadUsers: query returned 0 rows
+[2025-12-13 01:39:03] LoadUsers: using Oracle
+[2025-12-13 01:39:03] LoadUsers: query returned 0 rows
+[2025-12-13 01:41:29] LoadUsers: using Oracle
+[2025-12-13 01:41:29] LoadUsers: query returned 0 rows
+[2025-12-13 01:48:52] LoadUsers: using JSON file
+[2025-12-16 19:06:44] LoadUsers: using JSON file
+[2025-12-16 19:26:57] LoadUsers: using JSON file
+[2025-12-16 19:27:18] LoadUsers: using JSON file
+[2025-12-16 19:27:18] SaveUsers: using JSON file fallback
+[2025-12-16 19:27:25] LoadUsers: using JSON file
+[2025-12-16 19:29:13] LoadUsers: using JSON file
+[2025-12-16 19:54:49] LoadUsers: using JSON file
+[2025-12-18 19:02:39] LoadUsers: using Oracle
+[2025-12-18 19:02:40] LoadUsers: query returned 0 rows
+[2025-12-18 19:46:29] LoadUsers: using Oracle
+[2025-12-18 19:46:29] LoadUsers: Oracle error -> System.Exception: Oracle ExecuteScalar failed: ORA-12505: TNS:listener does not currently know of SID given in connect descriptor
+ ---> Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-12505: TNS:listener does not currently know of SID given in connect descriptor
+ ---> OracleInternal.Network.NetworkException (0x000030D9): ORA-12505: TNS:listener does not currently know of SID given in connect descriptor
+   at OracleInternal.Network.OracleCommunication.DoConnect(String tnsDescriptor)
+   at OracleInternal.Network.OracleCommunication.Connect(String tnsDescriptor, Boolean doNAHandshake, String IName, ConnectionOption CO)
+   at OracleInternal.ServiceObjects.OracleConnectionImpl.Connect(ConnectionString cs, Boolean bOpenEndUserSession, OracleConnection connRefForCriteria, String instanceName)
+   at OracleInternal.ConnectionPool.PoolManager`3.Get(ConnectionString csWithDiffOrNewPwd, Boolean bGetForApp, OracleConnection connRefForCriteria, String affinityInstanceName, Boolean bForceMatch)
+   at OracleInternal.ConnectionPool.OraclePoolManager.Get(ConnectionString csWithNewPassword, Boolean bGetForApp, OracleConnection connRefForCriteria, String affinityInstanceName, Boolean bForceMatch)
+   at OracleInternal.ConnectionPool.OracleConnectionDispenser`3.Get(ConnectionString cs, PM conPM, ConnectionString pmCS, SecureString securedPassword, SecureString securedProxyPassword, OracleConnection connRefForCriteria)
+   at Oracle.ManagedDataAccess.Client.OracleConnection.Open()
+   at _23330159.Data.DataStore.ExecuteScalar(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 318
+   --- End of inner exception stack trace ---
+   at _23330159.Data.DataStore.ExecuteScalar(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 331
+   at _23330159.Data.DataStore.EnsureOracleTables() in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 284
+   at _23330159.Data.DataStore.LoadUsers() in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 49
+[2025-12-18 19:46:29] LoadUsers: using JSON file
+[2025-12-18 19:47:10] LoadUsers: using Oracle
+[2025-12-18 19:47:10] LoadUsers: Oracle error -> System.Exception: Oracle ExecuteScalar failed: ORA-12505: TNS:listener does not currently know of SID given in connect descriptor
+ ---> Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-12505: TNS:listener does not currently know of SID given in connect descriptor
+ ---> OracleInternal.Network.NetworkException (0x000030D9): ORA-12505: TNS:listener does not currently know of SID given in connect descriptor
+   at OracleInternal.Network.OracleCommunication.DoConnect(String tnsDescriptor)
+   at OracleInternal.Network.OracleCommunication.Connect(String tnsDescriptor, Boolean doNAHandshake, String IName, ConnectionOption CO)
+   at OracleInternal.ServiceObjects.OracleConnectionImpl.Connect(ConnectionString cs, Boolean bOpenEndUserSession, OracleConnection connRefForCriteria, String instanceName)
+   at OracleInternal.ConnectionPool.PoolManager`3.Get(ConnectionString csWithDiffOrNewPwd, Boolean bGetForApp, OracleConnection connRefForCriteria, String affinityInstanceName, Boolean bForceMatch)
+   at OracleInternal.ConnectionPool.OraclePoolManager.Get(ConnectionString csWithNewPassword, Boolean bGetForApp, OracleConnection connRefForCriteria, String affinityInstanceName, Boolean bForceMatch)
+   at OracleInternal.ConnectionPool.OracleConnectionDispenser`3.Get(ConnectionString cs, PM conPM, ConnectionString pmCS, SecureString securedPassword, SecureString securedProxyPassword, OracleConnection connRefForCriteria)
+   at Oracle.ManagedDataAccess.Client.OracleConnection.Open()
+   at _23330159.Data.DataStore.ExecuteScalar(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 318
+   --- End of inner exception stack trace ---
+   at _23330159.Data.DataStore.ExecuteScalar(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 331
+   at _23330159.Data.DataStore.EnsureOracleTables() in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 284
+   at _23330159.Data.DataStore.LoadUsers() in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 49
+[2025-12-18 19:47:10] LoadUsers: using JSON file
+[2025-12-18 19:47:26] LoadUsers: using Oracle
+[2025-12-18 19:47:26] LoadUsers: Oracle error -> System.Exception: Oracle ExecuteScalar failed: ORA-12505: TNS:listener does not currently know of SID given in connect descriptor
+ ---> Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-12505: TNS:listener does not currently know of SID given in connect descriptor
+ ---> OracleInternal.Network.NetworkException (0x000030D9): ORA-12505: TNS:listener does not currently know of SID given in connect descriptor
+   at OracleInternal.Network.OracleCommunication.DoConnect(String tnsDescriptor)
+   at OracleInternal.Network.OracleCommunication.Connect(String tnsDescriptor, Boolean doNAHandshake, String IName, ConnectionOption CO)
+   at OracleInternal.ServiceObjects.OracleConnectionImpl.Connect(ConnectionString cs, Boolean bOpenEndUserSession, OracleConnection connRefForCriteria, String instanceName)
+   at OracleInternal.ConnectionPool.PoolManager`3.Get(ConnectionString csWithDiffOrNewPwd, Boolean bGetForApp, OracleConnection connRefForCriteria, String affinityInstanceName, Boolean bForceMatch)
+   at OracleInternal.ConnectionPool.OraclePoolManager.Get(ConnectionString csWithNewPassword, Boolean bGetForApp, OracleConnection connRefForCriteria, String affinityInstanceName, Boolean bForceMatch)
+   at OracleInternal.ConnectionPool.OracleConnectionDispenser`3.Get(ConnectionString cs, PM conPM, ConnectionString pmCS, SecureString securedPassword, SecureString securedProxyPassword, OracleConnection connRefForCriteria)
+   at Oracle.ManagedDataAccess.Client.OracleConnection.Open()
+   at _23330159.Data.DataStore.ExecuteScalar(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 318
+   --- End of inner exception stack trace ---
+   at _23330159.Data.DataStore.ExecuteScalar(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 331
+   at _23330159.Data.DataStore.EnsureOracleTables() in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 284
+   at _23330159.Data.DataStore.LoadUsers() in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 49
+[2025-12-18 19:47:26] LoadUsers: using JSON file
+[2025-12-18 19:47:26] SaveUsers: using JSON file fallback
+[2025-12-18 19:47:30] LoadUsers: using JSON file
+[2025-12-18 20:10:12] LoadUsers: using Oracle
+[2025-12-18 20:10:12] LoadUsers: Oracle error -> System.Exception: Oracle ExecuteScalar failed: ORA-12505: TNS:listener does not currently know of SID given in connect descriptor
+ ---> Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-12505: TNS:listener does not currently know of SID given in connect descriptor
+ ---> OracleInternal.Network.NetworkException (0x000030D9): ORA-12505: TNS:listener does not currently know of SID given in connect descriptor
+   at OracleInternal.Network.OracleCommunication.DoConnect(String tnsDescriptor)
+   at OracleInternal.Network.OracleCommunication.Connect(String tnsDescriptor, Boolean doNAHandshake, String IName, ConnectionOption CO)
+   at OracleInternal.ServiceObjects.OracleConnectionImpl.Connect(ConnectionString cs, Boolean bOpenEndUserSession, OracleConnection connRefForCriteria, String instanceName)
+   at OracleInternal.ConnectionPool.PoolManager`3.Get(ConnectionString csWithDiffOrNewPwd, Boolean bGetForApp, OracleConnection connRefForCriteria, String affinityInstanceName, Boolean bForceMatch)
+   at OracleInternal.ConnectionPool.OraclePoolManager.Get(ConnectionString csWithNewPassword, Boolean bGetForApp, OracleConnection connRefForCriteria, String affinityInstanceName, Boolean bForceMatch)
+   at OracleInternal.ConnectionPool.OracleConnectionDispenser`3.Get(ConnectionString cs, PM conPM, ConnectionString pmCS, SecureString securedPassword, SecureString securedProxyPassword, OracleConnection connRefForCriteria)
+   at Oracle.ManagedDataAccess.Client.OracleConnection.Open()
+   at _23330159.Data.DataStore.ExecuteScalar(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 270
+   --- End of inner exception stack trace ---
+   at _23330159.Data.DataStore.ExecuteScalar(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 281
+   at _23330159.Data.DataStore.EnsureOracleTables() in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 242
+   at _23330159.Data.DataStore.LoadUsers() in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 48
+[2025-12-18 20:11:33] LoadUsers: using Oracle
+[2025-12-18 20:11:33] LoadUsers: Oracle error -> System.Exception: Oracle ExecuteScalar failed: ORA-12505: TNS:listener does not currently know of SID given in connect descriptor
+ ---> Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-12505: TNS:listener does not currently know of SID given in connect descriptor
+ ---> OracleInternal.Network.NetworkException (0x000030D9): ORA-12505: TNS:listener does not currently know of SID given in connect descriptor
+   at OracleInternal.Network.OracleCommunication.DoConnect(String tnsDescriptor)
+   at OracleInternal.Network.OracleCommunication.Connect(String tnsDescriptor, Boolean doNAHandshake, String IName, ConnectionOption CO)
+   at OracleInternal.ServiceObjects.OracleConnectionImpl.Connect(ConnectionString cs, Boolean bOpenEndUserSession, OracleConnection connRefForCriteria, String instanceName)
+   at OracleInternal.ConnectionPool.PoolManager`3.Get(ConnectionString csWithDiffOrNewPwd, Boolean bGetForApp, OracleConnection connRefForCriteria, String affinityInstanceName, Boolean bForceMatch)
+   at OracleInternal.ConnectionPool.OraclePoolManager.Get(ConnectionString csWithNewPassword, Boolean bGetForApp, OracleConnection connRefForCriteria, String affinityInstanceName, Boolean bForceMatch)
+   at OracleInternal.ConnectionPool.OracleConnectionDispenser`3.Get(ConnectionString cs, PM conPM, ConnectionString pmCS, SecureString securedPassword, SecureString securedProxyPassword, OracleConnection connRefForCriteria)
+   at Oracle.ManagedDataAccess.Client.OracleConnection.Open()
+   at _23330159.Data.DataStore.ExecuteScalar(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 270
+   --- End of inner exception stack trace ---
+   at _23330159.Data.DataStore.ExecuteScalar(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 281
+   at _23330159.Data.DataStore.EnsureOracleTables() in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 242
+   at _23330159.Data.DataStore.LoadUsers() in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 48
+[2025-12-18 20:11:40] LoadUsers: using Oracle
+[2025-12-18 20:11:40] LoadUsers: Oracle error -> System.Exception: Oracle ExecuteScalar failed: ORA-12505: TNS:listener does not currently know of SID given in connect descriptor
+ ---> Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-12505: TNS:listener does not currently know of SID given in connect descriptor
+ ---> OracleInternal.Network.NetworkException (0x000030D9): ORA-12505: TNS:listener does not currently know of SID given in connect descriptor
+   at OracleInternal.Network.OracleCommunication.DoConnect(String tnsDescriptor)
+   at OracleInternal.Network.OracleCommunication.Connect(String tnsDescriptor, Boolean doNAHandshake, String IName, ConnectionOption CO)
+   at OracleInternal.ServiceObjects.OracleConnectionImpl.Connect(ConnectionString cs, Boolean bOpenEndUserSession, OracleConnection connRefForCriteria, String instanceName)
+   at OracleInternal.ConnectionPool.PoolManager`3.Get(ConnectionString csWithDiffOrNewPwd, Boolean bGetForApp, OracleConnection connRefForCriteria, String affinityInstanceName, Boolean bForceMatch)
+   at OracleInternal.ConnectionPool.OraclePoolManager.Get(ConnectionString csWithNewPassword, Boolean bGetForApp, OracleConnection connRefForCriteria, String affinityInstanceName, Boolean bForceMatch)
+   at OracleInternal.ConnectionPool.OracleConnectionDispenser`3.Get(ConnectionString cs, PM conPM, ConnectionString pmCS, SecureString securedPassword, SecureString securedProxyPassword, OracleConnection connRefForCriteria)
+   at Oracle.ManagedDataAccess.Client.OracleConnection.Open()
+   at _23330159.Data.DataStore.ExecuteScalar(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 270
+   --- End of inner exception stack trace ---
+   at _23330159.Data.DataStore.ExecuteScalar(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 281
+   at _23330159.Data.DataStore.EnsureOracleTables() in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 242
+   at _23330159.Data.DataStore.LoadUsers() in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 48
+[2025-12-18 20:39:35] LoadUsers: using Oracle
+[2025-12-18 20:39:35] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2025-12-18 20:39:36] LoadUsers: query returned 0 rows
+[2025-12-18 20:39:43] LoadUsers: using Oracle
+[2025-12-18 20:39:43] LoadUsers: query returned 0 rows
+[2025-12-18 20:39:43] SaveUsers: using Oracle
+[2025-12-18 20:39:43] SaveUsers: connection opened
+[2025-12-18 20:39:44] SaveUsers: verify COUNT(*)=1
+[2025-12-18 20:39:47] LoadUsers: using Oracle
+[2025-12-18 20:39:48] LoadUsers: query returned 1 rows
+[2025-12-18 20:40:03] SaveOrders: Oracle error -> System.Exception: Oracle ExecuteNonQuery failed: ORA-01745: 无效的主机/绑定变量名
+ ---> Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-01745: 无效的主机/绑定变量名
+   at OracleInternal.ServiceObjects.OracleConnectionImpl.VerifyExecution(Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, SqlStatementType sqlStatementType, Int32 arrayBindCount, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   at OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, OracleConnection connection, Boolean isFromEF)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at _23330159.Data.DataStore.ExecuteNonQuery(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 446
+   --- End of inner exception stack trace ---
+   at _23330159.Data.DataStore.ExecuteNonQuery(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 479
+   at _23330159.Data.DataStore.SaveOrders(List`1 orders) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 283
+[2025-12-23 19:11:02] LoadUsers: using Oracle
+[2025-12-23 19:11:02] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2025-12-23 19:11:03] LoadUsers: query returned 1 rows
+[2025-12-23 19:11:12] SaveOrders: Oracle error -> System.Exception: Oracle ExecuteNonQuery failed: ORA-01745: 无效的主机/绑定变量名
+ ---> Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-01745: 无效的主机/绑定变量名
+   at OracleInternal.ServiceObjects.OracleConnectionImpl.VerifyExecution(Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, SqlStatementType sqlStatementType, Int32 arrayBindCount, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   at OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, OracleConnection connection, Boolean isFromEF)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at _23330159.Data.DataStore.ExecuteNonQuery(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 446
+   --- End of inner exception stack trace ---
+   at _23330159.Data.DataStore.ExecuteNonQuery(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 479
+   at _23330159.Data.DataStore.SaveOrders(List`1 orders) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 283
+[2025-12-23 19:18:38] LoadUsers: using Oracle
+[2025-12-23 19:18:38] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2025-12-23 19:18:38] LoadUsers: query returned 1 rows
+[2025-12-23 19:30:35] LoadUsers: using Oracle
+[2025-12-23 19:30:36] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2025-12-23 19:30:36] LoadUsers: query returned 1 rows
+[2025-12-23 19:31:21] LoadUsers: using Oracle
+[2025-12-23 19:31:21] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2025-12-23 19:31:22] LoadUsers: query returned 1 rows
+[2025-12-23 19:31:22] SaveUsers: using Oracle
+[2025-12-23 19:31:22] SaveUsers: connection opened
+[2025-12-23 19:31:22] SaveUsers: verify COUNT(*)=2
+[2025-12-23 19:31:27] LoadUsers: using Oracle
+[2025-12-23 19:31:27] LoadUsers: query returned 2 rows
+[2025-12-23 19:40:42] LoadUsers: using Oracle
+[2025-12-23 19:40:42] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2025-12-23 19:40:42] LoadUsers: query returned 2 rows
+[2025-12-23 19:40:47] LoadUsers: using Oracle
+[2025-12-23 19:40:48] LoadUsers: query returned 2 rows
+[2025-12-23 19:40:48] SaveUsers: using Oracle
+[2025-12-23 19:40:48] SaveUsers: connection opened
+[2025-12-23 19:40:48] SaveUsers: verify COUNT(*)=3
+[2025-12-23 19:41:03] LoadUsers: using Oracle
+[2025-12-23 19:41:03] LoadUsers: query returned 3 rows
+[2025-12-23 19:41:03] SaveUsers: using Oracle
+[2025-12-23 19:41:04] SaveUsers: connection opened
+[2025-12-23 19:41:04] SaveUsers: verify COUNT(*)=4
+[2025-12-23 19:43:21] LoadUsers: using Oracle
+[2025-12-23 19:43:21] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2025-12-23 19:43:22] LoadUsers: query returned 4 rows
+[2025-12-23 19:55:26] LoadUsers: using Oracle
+[2025-12-23 19:55:26] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2025-12-23 19:55:27] LoadUsers: query returned 4 rows
+[2025-12-23 19:55:32] LoadUsers: using Oracle
+[2025-12-23 19:55:32] LoadUsers: query returned 4 rows
+[2025-12-23 19:55:32] SaveUsers: using Oracle
+[2025-12-23 19:55:32] SaveUsers: connection opened
+[2025-12-23 19:55:32] SaveUsers: verify COUNT(*)=5
+[2025-12-25 19:05:33] LoadUsers: using Oracle
+[2025-12-25 19:05:33] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2025-12-25 19:05:34] LoadUsers: query returned 5 rows
+[2025-12-25 19:10:23] LoadUsers: using Oracle
+[2025-12-25 19:10:24] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2025-12-25 19:10:24] LoadUsers: query returned 5 rows
+[2025-12-25 19:49:21] LoadUsers: using Oracle
+[2025-12-25 19:49:21] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2025-12-25 19:49:22] LoadUsers: query returned 5 rows
+[2025-12-25 20:12:53] LoadUsers: using Oracle
+[2025-12-25 20:12:53] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2025-12-25 20:12:53] LoadUsers: query returned 5 rows
+[2025-12-25 20:12:53] SaveUsers: using Oracle
+[2025-12-25 20:12:53] SaveUsers: connection opened
+[2025-12-25 20:12:53] SaveUsers: verify COUNT(*)=6
+[2025-12-25 20:14:04] LoadUsers: using Oracle
+[2025-12-25 20:14:04] LoadUsers: query returned 6 rows
+[2025-12-25 20:18:01] LoadUsers: using Oracle
+[2025-12-25 20:18:01] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2025-12-25 20:18:01] LoadUsers: query returned 6 rows
+[2025-12-25 20:18:33] LoadUsers: using Oracle
+[2025-12-25 20:18:33] LoadUsers: query returned 6 rows
+[2025-12-25 20:18:33] SaveUsers: using Oracle
+[2025-12-25 20:18:33] SaveUsers: connection opened
+[2025-12-25 20:18:33] SaveUsers: verify COUNT(*)=7
+[2025-12-25 20:18:42] LoadUsers: using Oracle
+[2025-12-25 20:18:42] LoadUsers: query returned 7 rows
+[2026-01-12 18:45:21] LoadUsers: using Oracle
+[2026-01-12 18:45:22] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2026-01-12 18:45:22] LoadUsers: query returned 7 rows
+[2026-01-12 18:46:13] LoadUsers: using Oracle
+[2026-01-12 18:46:13] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2026-01-12 18:46:14] LoadUsers: query returned 7 rows
+[2026-01-12 19:36:13] LoadUsers: using Oracle
+[2026-01-12 19:36:14] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2026-01-12 19:36:14] LoadUsers: Oracle error -> System.Exception: Oracle ExecuteQuery failed: ORA-00904: "ADDRESS": 标识符无效
+ ---> Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-00904: "ADDRESS": 标识符无效
+   at OracleInternal.ServiceObjects.OracleConnectionImpl.VerifyExecution(Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, SqlStatementType sqlStatementType, Int32 arrayBindCount, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   at OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteReader(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, OracleDataReaderImpl& rdrImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[] scnForExecution, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, Int64& internalInitialLOBFS, OracleException& exceptionForArrayBindDML, OracleConnection connection, IEnumerable`1 adrianParsedStmt, Boolean isDescribeOnly, Boolean isFromEF)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteReader(Boolean requery, Boolean fillRequest, CommandBehavior behavior)
+   at Oracle.ManagedDataAccess.Client.OracleDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at _23330159.Data.DataStore.ExecuteQuery(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 437
+   --- End of inner exception stack trace ---
+   at _23330159.Data.DataStore.ExecuteQuery(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 475
+   at _23330159.Data.DataStore.LoadUsers() in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 116
+[2026-01-12 22:41:49] LoadUsers: using Oracle
+[2026-01-12 22:41:49] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2026-01-12 22:41:49] LoadUsers: Oracle error -> System.Exception: Oracle ExecuteQuery failed: ORA-00904: "ADDRESS": 标识符无效
+ ---> Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-00904: "ADDRESS": 标识符无效
+   at OracleInternal.ServiceObjects.OracleConnectionImpl.VerifyExecution(Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, SqlStatementType sqlStatementType, Int32 arrayBindCount, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   at OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteReader(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, OracleDataReaderImpl& rdrImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[] scnForExecution, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, Int64& internalInitialLOBFS, OracleException& exceptionForArrayBindDML, OracleConnection connection, IEnumerable`1 adrianParsedStmt, Boolean isDescribeOnly, Boolean isFromEF)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteReader(Boolean requery, Boolean fillRequest, CommandBehavior behavior)
+   at Oracle.ManagedDataAccess.Client.OracleDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   at System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   at _23330159.Data.DataStore.ExecuteQuery(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 437
+   --- End of inner exception stack trace ---
+   at _23330159.Data.DataStore.ExecuteQuery(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 475
+   at _23330159.Data.DataStore.LoadUsers() in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 116
+[2026-01-12 22:59:48] LoadUsers: using Oracle
+[2026-01-12 22:59:48] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2026-01-12 22:59:49] LoadUsers: query returned 0 rows
+[2026-01-12 22:59:49] SaveUsers: using Oracle
+[2026-01-12 22:59:49] SaveUsers: connection opened
+[2026-01-12 22:59:49] SaveUsers: verify COUNT(*)=1
+[2026-01-12 23:00:54] LoadUsers: using Oracle
+[2026-01-12 23:00:54] LoadUsers: query returned 1 rows
+[2026-01-12 23:17:17] SaveDrinks: Oracle error -> System.Exception: Oracle ExecuteNonQuery failed: ORA-02292: 违反完整约束条件 (FR.FK_ITEM_DRINK) - 已找到子记录
+ ---> Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-02292: 违反完整约束条件 (FR.FK_ITEM_DRINK) - 已找到子记录
+   at OracleInternal.ServiceObjects.OracleConnectionImpl.VerifyExecution(Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, SqlStatementType sqlStatementType, Int32 arrayBindCount, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   at OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, OracleConnection connection, Boolean isFromEF)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at _23330159.Data.DataStore.ExecuteNonQuery(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 491
+   --- End of inner exception stack trace ---
+   at _23330159.Data.DataStore.ExecuteNonQuery(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 525
+   at _23330159.Data.DataStore.SaveDrinks(List`1 drinks) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 231
+[2026-01-12 23:17:29] SaveDrinks: Oracle error -> System.Exception: Oracle ExecuteNonQuery failed: ORA-02292: 违反完整约束条件 (FR.FK_ITEM_DRINK) - 已找到子记录
+ ---> Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-02292: 违反完整约束条件 (FR.FK_ITEM_DRINK) - 已找到子记录
+   at OracleInternal.ServiceObjects.OracleConnectionImpl.VerifyExecution(Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, SqlStatementType sqlStatementType, Int32 arrayBindCount, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   at OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, OracleConnection connection, Boolean isFromEF)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at _23330159.Data.DataStore.ExecuteNonQuery(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 491
+   --- End of inner exception stack trace ---
+   at _23330159.Data.DataStore.ExecuteNonQuery(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 525
+   at _23330159.Data.DataStore.SaveDrinks(List`1 drinks) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 231
+[2026-01-12 23:18:20] SaveDrinks: Oracle error -> System.Exception: Oracle ExecuteNonQuery failed: ORA-02292: 违反完整约束条件 (FR.FK_ITEM_DRINK) - 已找到子记录
+ ---> Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-02292: 违反完整约束条件 (FR.FK_ITEM_DRINK) - 已找到子记录
+   at OracleInternal.ServiceObjects.OracleConnectionImpl.VerifyExecution(Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, SqlStatementType sqlStatementType, Int32 arrayBindCount, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   at OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, OracleConnection connection, Boolean isFromEF)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at _23330159.Data.DataStore.ExecuteNonQuery(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 491
+   --- End of inner exception stack trace ---
+   at _23330159.Data.DataStore.ExecuteNonQuery(String sql, ValueTuple`2[] parms) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 525
+   at _23330159.Data.DataStore.SaveDrinks(List`1 drinks) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 231
+[2026-01-13 00:15:13] LoadUsers: using Oracle
+[2026-01-13 00:15:13] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2026-01-13 00:15:13] LoadUsers: query returned 1 rows
+[2026-01-13 00:15:21] SaveOrders: Oracle error -> Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-00904: "TOTAL": 标识符无效
+   at OracleInternal.ServiceObjects.OracleConnectionImpl.VerifyExecution(Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, SqlStatementType sqlStatementType, Int32 arrayBindCount, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   at OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, OracleConnection connection, Boolean isFromEF)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at _23330159.Data.DataStore.SaveOrders(List`1 orders) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 371
+[2026-01-13 00:15:34] LoadUsers: using Oracle
+[2026-01-13 00:15:34] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2026-01-13 00:15:34] LoadUsers: query returned 1 rows
+[2026-01-13 00:21:15] LoadUsers: using Oracle
+[2026-01-13 00:21:15] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2026-01-13 00:21:16] LoadUsers: query returned 0 rows
+[2026-01-13 00:21:16] SaveUsers: using Oracle
+[2026-01-13 00:21:16] SaveUsers: connection opened
+[2026-01-13 00:21:24] LoadUsers: using Oracle
+[2026-01-13 00:21:24] LoadUsers: query returned 1 rows
+[2026-01-13 00:21:59] LoadUsers: using Oracle
+[2026-01-13 00:21:59] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2026-01-13 00:22:00] LoadUsers: query returned 1 rows
+[2026-01-13 00:28:32] LoadUsers: using Oracle
+[2026-01-13 00:28:33] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2026-01-13 00:28:33] LoadUsers: query returned 1 rows
+[2026-01-13 00:30:18] LoadUsers: using Oracle
+[2026-01-13 00:30:18] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2026-01-13 00:30:18] LoadUsers: query returned 0 rows
+[2026-01-13 00:30:37] LoadUsers: using Oracle
+[2026-01-13 00:30:37] LoadUsers: query returned 0 rows
+[2026-01-13 00:30:37] SaveUsers: using Oracle
+[2026-01-13 00:30:37] SaveUsers: connection opened
+[2026-01-13 00:30:41] LoadUsers: using Oracle
+[2026-01-13 00:30:41] LoadUsers: query returned 1 rows
+[2026-01-13 00:34:28] LoadUsers: using Oracle
+[2026-01-13 00:34:28] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2026-01-13 00:34:28] LoadUsers: query returned 1 rows
+[2026-01-13 00:34:32] LoadUsers: using Oracle
+[2026-01-13 00:34:32] LoadUsers: query returned 1 rows
+[2026-01-13 00:52:13] LoadUsers: using Oracle
+[2026-01-13 00:52:13] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2026-01-13 00:52:14] LoadUsers: query returned 1 rows
+[2026-01-13 00:53:38] LoadUsers: using Oracle
+[2026-01-13 00:53:38] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2026-01-13 00:53:38] LoadUsers: query returned 0 rows
+[2026-01-13 00:54:23] LoadUsers: using Oracle
+[2026-01-13 00:54:23] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2026-01-13 00:54:24] LoadUsers: query returned 0 rows
+[2026-01-13 00:54:24] SaveUsers: using Oracle
+[2026-01-13 00:54:24] SaveUsers: connection opened
+[2026-01-13 00:54:28] LoadUsers: using Oracle
+[2026-01-13 00:54:28] LoadUsers: query returned 1 rows
+[2026-01-13 00:54:46] LoadUsers: using Oracle
+[2026-01-13 00:54:46] LoadUsers: query returned 1 rows
+[2026-01-14 16:50:24] LoadUsers: using Oracle
+[2026-01-14 16:50:24] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2026-01-14 16:50:25] LoadUsers: query returned 1 rows
+[2026-01-14 16:52:05] LoadUsers: using Oracle
+[2026-01-14 16:52:05] LoadUsers: query returned 1 rows
+[2026-01-14 16:52:05] SaveUsers: using Oracle
+[2026-01-14 16:52:05] SaveUsers: connection opened
+[2026-01-14 16:52:06] SaveUsers: Oracle error -> Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-02292: 违反完整约束条件 (FR.FK_ORDER_USER) - 已找到子记录
+   at OracleInternal.ServiceObjects.OracleConnectionImpl.VerifyExecution(Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, SqlStatementType sqlStatementType, Int32 arrayBindCount, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   at OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, OracleConnection connection, Boolean isFromEF)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at _23330159.Data.DataStore.SaveUsers(List`1 users) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 155
+[2026-01-14 16:52:15] LoadUsers: using Oracle
+[2026-01-14 16:52:16] LoadUsers: query returned 1 rows
+[2026-01-14 16:52:16] SaveUsers: using Oracle
+[2026-01-14 16:52:16] SaveUsers: connection opened
+[2026-01-14 16:52:16] SaveUsers: Oracle error -> Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-02292: 违反完整约束条件 (FR.FK_ORDER_USER) - 已找到子记录
+   at OracleInternal.ServiceObjects.OracleConnectionImpl.VerifyExecution(Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, SqlStatementType sqlStatementType, Int32 arrayBindCount, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   at OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, OracleConnection connection, Boolean isFromEF)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at _23330159.Data.DataStore.SaveUsers(List`1 users) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 155
+[2026-01-14 16:52:30] LoadUsers: using Oracle
+[2026-01-14 16:52:30] LoadUsers: query returned 1 rows
+[2026-01-14 16:52:30] SaveUsers: using Oracle
+[2026-01-14 16:52:30] SaveUsers: connection opened
+[2026-01-14 16:52:30] SaveUsers: Oracle error -> Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-02292: 违反完整约束条件 (FR.FK_ORDER_USER) - 已找到子记录
+   at OracleInternal.ServiceObjects.OracleConnectionImpl.VerifyExecution(Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, SqlStatementType sqlStatementType, Int32 arrayBindCount, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   at OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, OracleConnection connection, Boolean isFromEF)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at _23330159.Data.DataStore.SaveUsers(List`1 users) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 155
+[2026-01-14 16:52:47] LoadUsers: using Oracle
+[2026-01-14 16:52:47] LoadUsers: query returned 1 rows
+[2026-01-14 16:52:47] SaveUsers: using Oracle
+[2026-01-14 16:52:47] SaveUsers: connection opened
+[2026-01-14 16:52:47] SaveUsers: Oracle error -> Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-02292: 违反完整约束条件 (FR.FK_ORDER_USER) - 已找到子记录
+   at OracleInternal.ServiceObjects.OracleConnectionImpl.VerifyExecution(Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, SqlStatementType sqlStatementType, Int32 arrayBindCount, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   at OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, OracleConnection connection, Boolean isFromEF)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at _23330159.Data.DataStore.SaveUsers(List`1 users) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 155
+[2026-01-14 16:52:58] LoadUsers: using Oracle
+[2026-01-14 16:52:58] LoadUsers: query returned 1 rows
+[2026-01-14 16:52:58] SaveUsers: using Oracle
+[2026-01-14 16:52:59] SaveUsers: connection opened
+[2026-01-14 16:52:59] SaveUsers: Oracle error -> Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-02292: 违反完整约束条件 (FR.FK_ORDER_USER) - 已找到子记录
+   at OracleInternal.ServiceObjects.OracleConnectionImpl.VerifyExecution(Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, SqlStatementType sqlStatementType, Int32 arrayBindCount, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   at OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, OracleConnection connection, Boolean isFromEF)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at _23330159.Data.DataStore.SaveUsers(List`1 users) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 155
+[2026-01-14 16:55:10] LoadUsers: using Oracle
+[2026-01-14 16:55:10] LoadUsers: query returned 1 rows
+[2026-01-14 16:55:10] SaveUsers: using Oracle
+[2026-01-14 16:55:11] SaveUsers: connection opened
+[2026-01-14 16:55:11] SaveUsers: Oracle error -> Oracle.ManagedDataAccess.Client.OracleException (0x80004005): ORA-02292: 违反完整约束条件 (FR.FK_ORDER_USER) - 已找到子记录
+   at OracleInternal.ServiceObjects.OracleConnectionImpl.VerifyExecution(Int32& cursorId, Boolean bThrowArrayBindRelatedErrors, SqlStatementType sqlStatementType, Int32 arrayBindCount, OracleException& exceptionForArrayBindDML, Boolean& hasMoreRowsInDB, Boolean bFirstIterationDone)
+   at OracleInternal.ServiceObjects.OracleCommandImpl.ExecuteNonQuery(String commandText, OracleParameterCollection paramColl, CommandType commandType, OracleConnectionImpl connectionImpl, Int32 longFetchSize, Int64 clientInitialLOBFS, OracleDependencyImpl orclDependencyImpl, Int64[]& scnFromExecution, OracleParameterCollection& bindByPositionParamColl, Boolean& bBindParamPresent, OracleException& exceptionForArrayBindDML, OracleConnection connection, Boolean isFromEF)
+   at Oracle.ManagedDataAccess.Client.OracleCommand.ExecuteNonQuery()
+   at _23330159.Data.DataStore.SaveUsers(List`1 users) in F:\VS2026project\23330159\23330159\Data\DataStore.cs:line 155
+[2026-01-14 17:00:43] LoadUsers: using Oracle
+[2026-01-14 17:00:43] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2026-01-14 17:00:44] LoadUsers: query returned 1 rows
+[2026-01-14 17:00:44] SaveUsers: using Oracle
+[2026-01-14 17:00:44] SaveUsers: connection opened
+[2026-01-14 17:01:19] LoadUsers: using Oracle
+[2026-01-14 17:01:19] LoadUsers: query returned 2 rows
+[2026-01-14 17:01:53] LoadUsers: using Oracle
+[2026-01-14 17:01:53] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2026-01-14 17:01:54] LoadUsers: query returned 2 rows
+[2026-01-14 17:04:58] LoadUsers: using Oracle
+[2026-01-14 17:04:58] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2026-01-14 17:04:58] LoadUsers: query returned 2 rows
+[2026-01-14 17:05:38] LoadUsers: using Oracle
+[2026-01-14 17:05:39] LoadUsers: query returned 2 rows
+[2026-01-14 17:30:32] LoadUsers: using Oracle
+[2026-01-14 17:30:33] LoadUsers: query returned 2 rows
+[2026-01-14 17:42:54] LoadUsers: using Oracle
+[2026-01-14 17:42:55] ExecuteScalar: detected ORA-12505, trying alternate conn format
+[2026-01-14 17:42:55] LoadUsers: query returned 2 rows
+[2026-01-14 17:43:31] LoadUsers: using Oracle
+[2026-01-14 17:43:32] LoadUsers: query returned 2 rows
+[2026-01-14 17:43:37] LoadUsers: using Oracle
+[2026-01-14 17:43:37] LoadUsers: query returned 2 rows
+[2026-01-14 17:43:43] LoadUsers: using Oracle
+[2026-01-14 17:43:44] LoadUsers: query returned 2 rows
+[2026-01-14 17:43:44] SaveUsers: using Oracle
+[2026-01-14 17:43:44] SaveUsers: connection opened
+[2026-01-14 17:43:51] LoadUsers: using Oracle
+[2026-01-14 17:43:51] LoadUsers: query returned 3 rows
+[2026-01-14 17:43:54] LoadUsers: using Oracle
+[2026-01-14 17:43:54] LoadUsers: query returned 3 rows
+[2026-01-14 17:44:21] LoadUsers: using Oracle
+[2026-01-14 17:44:21] LoadUsers: query returned 3 rows
+[2026-01-14 17:44:33] LoadUsers: using Oracle
+[2026-01-14 17:44:33] LoadUsers: query returned 3 rows

@@ -1,0 +1,27 @@
+﻿namespace _23330159
+{
+    internal static class Program
+    {
+        /// <summary>
+        ///  The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
+        {
+            // To customize application configuration such as set high DPI settings or default font,
+            // see https://aka.ms/applicationconfiguration.
+            ApplicationConfiguration.Initialize();
+
+            // Show login dialog first. If user signs in, start the main form as the application's main window.
+            using (var login = new Form1())
+            {
+                var dr = login.ShowDialog();
+                if (dr == DialogResult.OK)
+                {
+                    var username = login.LoggedInUsername;
+                    Application.Run(new Main(username));
+                }
+            }
+        }
+    }
+}

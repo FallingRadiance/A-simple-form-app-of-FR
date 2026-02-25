@@ -1,0 +1,254 @@
+﻿namespace _23330159
+{
+    partial class sign_up
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            label1 = new Label();
+            label2 = new Label();
+            label3 = new Label();
+            label4 = new Label();
+            button1 = new Button();
+            button2 = new Button();
+            txtUsername = new TextBox();
+            txtPassword = new TextBox();
+            txtConfirmPassword = new TextBox();
+            email = new TextBox();
+            label5 = new Label();
+            label6 = new Label();
+            phoneNumber = new TextBox();
+            // validation labels
+            labelPhoneError = new Label();
+            labelConfirmPwdError = new Label();
+            labelEmailError = new Label();
+            SuspendLayout();
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(83, 83);
+            label1.Name = "label1";
+            label1.Size = new Size(54, 20);
+            label1.TabIndex = 0;
+            label1.Text = "用户名";
+            label1.Click += label1_Click;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(83, 127);
+            label2.Name = "label2";
+            label2.Size = new Size(39, 20);
+            label2.TabIndex = 0;
+            label2.Text = "密码";
+            label2.Click += label1_Click;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(83, 226);
+            label3.Name = "label3";
+            label3.Size = new Size(39, 20);
+            label3.TabIndex = 0;
+            label3.Text = "邮箱";
+            label3.Click += label1_Click;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(83, 178);
+            label4.Name = "label4";
+            label4.Size = new Size(99, 20);
+            label4.TabIndex = 0;
+            label4.Text = "重复输入密码";
+            label4.Click += label1_Click;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(119, 345);
+            button1.Name = "button1";
+            button1.Size = new Size(143, 44);
+            button1.TabIndex = 1;
+            button1.Text = "注册";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(294, 345);
+            button2.Name = "button2";
+            button2.Size = new Size(143, 44);
+            button2.TabIndex = 1;
+            button2.Text = "取消";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
+            // txtUsername
+            // 
+            txtUsername.Location = new Point(209, 76);
+            txtUsername.Name = "txtUsername";
+            txtUsername.Size = new Size(245, 27);
+            txtUsername.TabIndex = 2;
+            txtUsername.TextChanged += txtUsername_TextChanged;
+            // 
+            // txtPassword
+            // 
+            txtPassword.Location = new Point(209, 120);
+            txtPassword.Name = "txtPassword";
+            txtPassword.Size = new Size(245, 27);
+            txtPassword.TabIndex = 2;
+            txtPassword.UseSystemPasswordChar = true;
+            txtPassword.TextChanged += txtPassword_TextChanged;
+            // 
+            // txtConfirmPassword
+            // 
+            txtConfirmPassword.Location = new Point(209, 171);
+            txtConfirmPassword.Name = "txtConfirmPassword";
+            txtConfirmPassword.Size = new Size(245, 27);
+            txtConfirmPassword.TabIndex = 2;
+            txtConfirmPassword.UseSystemPasswordChar = true;
+            txtConfirmPassword.TextChanged += txtConfirmPassword_TextChanged;
+            // 
+            // email
+            // 
+            email.Location = new Point(209, 219);
+            email.Name = "email";
+            email.Size = new Size(245, 27);
+            email.TabIndex = 2;
+            email.TextChanged += email_TextChanged;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Microsoft YaHei UI", 15F);
+            label5.Location = new Point(209, 9);
+            label5.Name = "label5";
+            label5.Size = new Size(114, 32);
+            label5.TabIndex = 0;
+            label5.Text = "注册界面";
+            label5.Click += label1_Click;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(83, 272);
+            label6.Name = "label6";
+            label6.Size = new Size(54, 20);
+            label6.TabIndex = 0;
+            label6.Text = "手机号";
+            label6.Click += label1_Click;
+            // 
+            // phoneNumber
+            // 
+            phoneNumber.Location = new Point(209, 265);
+            phoneNumber.Name = "phoneNumber";
+            phoneNumber.Size = new Size(245, 27);
+            phoneNumber.TabIndex = 2;
+            phoneNumber.TextChanged += phoneNumber_TextChanged;
+            // 
+            // labelPhoneError
+            // 
+            labelPhoneError.AutoSize = true;
+            labelPhoneError.ForeColor = Color.Red;
+            labelPhoneError.Location = new Point(465, 268);
+            labelPhoneError.Name = "labelPhoneError";
+            labelPhoneError.Size = new Size(140, 20);
+            labelPhoneError.TabIndex = 3;
+            labelPhoneError.Text = "手机号必须是11位";
+            labelPhoneError.Visible = false;
+            // 
+            // labelConfirmPwdError
+            // 
+            labelConfirmPwdError.AutoSize = true;
+            labelConfirmPwdError.ForeColor = Color.Red;
+            labelConfirmPwdError.Location = new Point(465, 174);
+            labelConfirmPwdError.Name = "labelConfirmPwdError";
+            labelConfirmPwdError.Size = new Size(140, 20);
+            labelConfirmPwdError.TabIndex = 3;
+            labelConfirmPwdError.Text = "必须与密码一致";
+            labelConfirmPwdError.Visible = false;
+            // 
+            // labelEmailError
+            // 
+            labelEmailError.AutoSize = true;
+            labelEmailError.ForeColor = Color.Red;
+            labelEmailError.Location = new Point(465, 222);
+            labelEmailError.Name = "labelEmailError";
+            labelEmailError.Size = new Size(100, 20);
+            labelEmailError.TabIndex = 3;
+            labelEmailError.Text = "邮箱不合法";
+            labelEmailError.Visible = false;
+            // 
+            // sign_up
+            // 
+            AutoScaleDimensions = new SizeF(9F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(653, 440);
+            Controls.Add(labelEmailError);
+            Controls.Add(labelConfirmPwdError);
+            Controls.Add(labelPhoneError);
+            Controls.Add(phoneNumber);
+            Controls.Add(email);
+            Controls.Add(txtConfirmPassword);
+            Controls.Add(txtPassword);
+            Controls.Add(txtUsername);
+            Controls.Add(button2);
+            Controls.Add(button1);
+            Controls.Add(label6);
+            Controls.Add(label4);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(label5);
+            Controls.Add(label1);
+            Name = "sign_up";
+            Text = "sign_up";
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        private Label label1;
+        private Label label2;
+        private Label label3;
+        private Label label4;
+        private Button button1;
+        private Button button2;
+        private TextBox txtUsername;
+        private TextBox txtPassword;
+        private TextBox txtConfirmPassword;
+        private TextBox email;
+        private Label label5;
+        private Label label6;
+        private TextBox phoneNumber;
+
+        // validation labels
+        private Label labelPhoneError;
+        private Label labelConfirmPwdError;
+        private Label labelEmailError;
+    }
+}

@@ -1,0 +1,509 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Data;
+using Oracle.ManagedDataAccess.Client;
+using _23330159.Models;
+
+namespace _23330159.Data
+{
+    public static class DataStore
+    {
+        private static readonly string BaseDir = AppDomain.CurrentDomain.BaseDirectory;
+
+        // Oracle config via environment variables
+        private static string OracleConn = Environment.GetEnvironmentVariable("ORACLE_CONN");
+        // runtime flag: whether Oracle operations are currently available. We force using Oracle.
+        private static bool OracleAvailable = true;
+
+        public static string GetActiveStorage() => "Oracle";
+
+        private static void LogDebug(string message)
+        {
+            try
+            {
+                var path = Path.Combine(BaseDir, "db_debug.log");
+                var line = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {message}\r\n";
+                File.AppendAllText(path, line);
+            }
+            catch { }
+        }
+
+        private static void EnsureOracleConfigured()
+        {
+            if (string.IsNullOrEmpty(OracleConn))
+            {
+                throw new InvalidOperationException("ORACLE_CONN environment variable is not set. Oracle persistence is required.");
+            }
+        }
+
+        // If we detect ORA-12505, try to replace SID= with SERVICE_NAME= and retry.
+        private static string GetAlternateConnIfNeeded(string conn)
+        {
+            if (string.IsNullOrEmpty(conn)) return conn;
+            try
+            {
+                if (conn.IndexOf("SID=", StringComparison.OrdinalIgnoreCase) >= 0 && conn.IndexOf("SERVICE_NAME=", StringComparison.OrdinalIgnoreCase) < 0)
+                {
+                    return conn.Replace("SID=", "SERVICE_NAME=");
+                }
+
+                // If caller used SERVICE_NAME but listener expects SID, try the reverse
+                if (conn.IndexOf("SERVICE_NAME=", StringComparison.OrdinalIgnoreCase) >= 0 && conn.IndexOf("SID=", StringComparison.OrdinalIgnoreCase) < 0)
+                {
+                    return conn.Replace("SERVICE_NAME=", "SID=");
+                }
+
+                // Fallback: if connection uses a full DESCRIPTION, try to use EZCONNECT (host:port/service)
+                // Attempt to parse HOST, PORT and SERVICE_NAME/SID to build an EZCONNECT string
+                var lower = conn.ToLowerInvariant();
+                if (lower.Contains("host=") && lower.Contains("port=") && (lower.Contains("sid=") || lower.Contains("service_name=")))
+                {
+                    try
+                    {
+                        // crude parse
+                        string host = null, port = null, svc = null;
+                        var parts = conn.Split(new[] { '(', ')', '=' }, StringSplitOptions.RemoveEmptyEntries);
+                        for (int i = 0; i < parts.Length - 1; i++)
+                        {
+                            var p = parts[i].Trim().ToLowerInvariant();
+                            if (p == "host") host = parts[i + 1].Trim();
+                            if (p == "port") port = parts[i + 1].Trim();
+                            if (p == "sid" || p == "service_name") svc = parts[i + 1].Trim();
+                        }
+
+                        if (!string.IsNullOrEmpty(host) && !string.IsNullOrEmpty(port) && !string.IsNullOrEmpty(svc))
+                        {
+                            // construct EZCONNECT and keep user/password from original conn if present
+                            var user = ExtractConnPart(conn, "User Id", "UserId", "UID", "User");
+                            var pwd = ExtractConnPart(conn, "Password", "PWD");
+                            var ez = $"User Id={user};Password={pwd};Data Source={host}:{port}/{svc};Connection Timeout=60;Pooling=false";
+                            return ez;
+                        }
+                    }
+                    catch { }
+                }
+            }
+            catch { }
+            return conn;
+        }
+
+        private static string ExtractConnPart(string conn, params string[] keys)
+        {
+            foreach (var key in keys)
+            {
+                var idx = conn.IndexOf(key + "=", StringComparison.OrdinalIgnoreCase);
+                if (idx >= 0)
+                {
+                    var substr = conn.Substring(idx + key.Length + 1);
+                    var end = substr.IndexOf(';');
+                    var val = end >= 0 ? substr.Substring(0, end) : substr;
+                    return val.Trim();
+                }
+            }
+            return string.Empty;
+        }
+
+        #region Users
+        public static List<User> LoadUsers()
+        {
+            EnsureOracleConfigured();
+            try
+            {
+                LogDebug("LoadUsers: using Oracle");
+                EnsureOracleTables();
+                var dt = ExecuteQuery("SELECT USERNAME, PASSWORD, EMAIL, PHONE FROM USERS");
+                LogDebug($"LoadUsers: query returned {dt.Rows.Count} rows");
+                var users = new List<User>();
+                foreach (DataRow r in dt.Rows)
+                {
+                    users.Add(new User
+                    {
+                        Username = r["USERNAME"].ToString(),
+                        Password = r["PASSWORD"].ToString(),
+                        Email = r["EMAIL"].ToString(),
+                        PhoneNumber = r["PHONE"].ToString()
+                    });
+                }
+                return users;
+            }
+            catch (Exception ex)
+            {
+                LogDebug("LoadUsers: Oracle error -> " + ex.ToString());
+                throw;
+            }
+        }
+
+        public static void SaveUsers(List<User> users)
+        {
+            EnsureOracleConfigured();
+            try
+            {
+                LogDebug("SaveUsers: using Oracle");
+                EnsureOracleTables();
+                using (var con = new OracleConnection(OracleConn))
+                {
+                    con.Open();
+                    LogDebug("SaveUsers: connection opened");
+                    using (var tx = con.BeginTransaction())
+                    using (var cmd = con.CreateCommand())
+                    {
+                        cmd.Transaction = tx;
+                        cmd.CommandText = "DELETE FROM USERS";
+                        cmd.ExecuteNonQuery();
+
+                        cmd.CommandText = "INSERT INTO USERS (USERNAME, PASSWORD, EMAIL, PHONE) VALUES (:u, :p, :e, :ph)";
+                        cmd.BindByName = true;
+                        foreach (var u in users)
+                        {
+                            cmd.Parameters.Clear();
+                            cmd.Parameters.Add(new OracleParameter("u", OracleDbType.Varchar2) { Value = u.Username ?? string.Empty });
+                            cmd.Parameters.Add(new OracleParameter("p", OracleDbType.Varchar2) { Value = u.Password ?? string.Empty });
+                            cmd.Parameters.Add(new OracleParameter("e", OracleDbType.Varchar2) { Value = u.Email ?? string.Empty });
+                            cmd.Parameters.Add(new OracleParameter("ph", OracleDbType.Varchar2) { Value = u.PhoneNumber ?? string.Empty });
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        tx.Commit();
+                    }
+                }
+
+                // verify
+                try
+                {
+                    var cnt = ExecuteScalar("SELECT COUNT(*) FROM USERS");
+                    LogDebug("SaveUsers: verify COUNT(*)=" + cnt);
+                }
+                catch (Exception ex) { LogDebug("SaveUsers: verify failed: " + ex.ToString()); }
+            }
+            catch (Exception ex)
+            {
+                LogDebug("SaveUsers: Oracle error -> " + ex.ToString());
+                throw;
+            }
+        }
+        #endregion
+
+        #region Drinks
+        public static List<Drink> LoadDrinks()
+        {
+            EnsureOracleConfigured();
+            try
+            {
+                EnsureOracleTables();
+                var dt = ExecuteQuery("SELECT ID, NAME, CATEGORY, PRICE, STOCK FROM DRINKS");
+                var list = new List<Drink>();
+                foreach (DataRow r in dt.Rows)
+                {
+                    list.Add(new Drink
+                    {
+                        Id = r["ID"].ToString(),
+                        Name = r["NAME"].ToString(),
+                        Category = r["CATEGORY"].ToString(),
+                        Price = decimal.TryParse(r["PRICE"].ToString(), out var p) ? p : 0,
+                        Stock = int.TryParse(r["STOCK"].ToString(), out var s) ? s : 0
+                    });
+                }
+
+                if (list.Count > 0) return list;
+
+                // if empty, insert defaults and return them
+                var defaults = GetDefaultDrinks();
+                SaveDrinks(defaults);
+                return defaults;
+            }
+            catch (Exception ex)
+            {
+                LogDebug("LoadDrinks: Oracle error -> " + ex.ToString());
+                throw;
+            }
+        }
+
+        public static void SaveDrinks(List<Drink> drinks)
+        {
+            EnsureOracleConfigured();
+            try
+            {
+                EnsureOracleTables();
+                ExecuteNonQuery("DELETE FROM DRINKS");
+                foreach (var d in drinks)
+                {
+                    ExecuteNonQuery("INSERT INTO DRINKS (ID, NAME, CATEGORY, PRICE, STOCK) VALUES (:id, :name, :cat, :price, :stock)",
+                        (":id", d.Id), (":name", d.Name), (":cat", d.Category), (":price", d.Price), (":stock", d.Stock));
+                }
+            }
+            catch (Exception ex)
+            {
+                LogDebug("SaveDrinks: Oracle error -> " + ex.ToString());
+                throw;
+            }
+        }
+        #endregion
+
+        #region Orders
+        public static List<Order> LoadOrders()
+        {
+            EnsureOracleConfigured();
+            try
+            {
+                EnsureOracleTables();
+                var dt = ExecuteQuery("SELECT ID, USERNAME, CREATEDAT FROM ORDERS ORDER BY CREATEDAT DESC");
+                var orders = new List<Order>();
+                foreach (DataRow r in dt.Rows)
+                {
+                    var id = r["ID"].ToString();
+                    var o = new Order { Id = id, Username = r["USERNAME"].ToString(), CreatedAt = DateTime.Parse(r["CREATEDAT"].ToString()) };
+                    var itemsDt = ExecuteQuery("SELECT DRINKID, DRINKNAME, UNITPRICE, QUANTITY FROM ORDER_ITEMS WHERE ORDERID = :oid", (":oid", id));
+                    foreach (DataRow ir in itemsDt.Rows)
+                    {
+                        o.Items.Add(new OrderItem { DrinkId = ir["DRINKID"].ToString(), DrinkName = ir["DRINKNAME"].ToString(), UnitPrice = decimal.Parse(ir["UNITPRICE"].ToString()), Quantity = int.Parse(ir["QUANTITY"].ToString()) });
+                    }
+                    orders.Add(o);
+                }
+                return orders;
+            }
+            catch (Exception ex)
+            {
+                LogDebug("LoadOrders: Oracle error -> " + ex.ToString());
+                throw;
+            }
+        }
+
+        public static void SaveOrders(List<Order> orders)
+        {
+            EnsureOracleConfigured();
+            try
+            {
+                EnsureOracleTables();
+                ExecuteNonQuery("DELETE FROM ORDER_ITEMS");
+                ExecuteNonQuery("DELETE FROM ORDERS");
+                foreach (var o in orders)
+                {
+                    ExecuteNonQuery("INSERT INTO ORDERS (ID, USERNAME, CREATEDAT) VALUES (:id, :user, :ca)", (":id", o.Id), (":user", o.Username), (":ca", o.CreatedAt));
+                    foreach (var it in o.Items)
+                    {
+                        ExecuteNonQuery("INSERT INTO ORDER_ITEMS (ORDERID, DRINKID, DRINKNAME, UNITPRICE, QUANTITY) VALUES (:oid, :did, :dname, :price, :qty)",
+                            (":oid", o.Id), (":did", it.DrinkId), (":dname", it.DrinkName), (":price", it.UnitPrice), (":qty", it.Quantity));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogDebug("SaveOrders: Oracle error -> " + ex.ToString());
+                throw;
+            }
+        }
+        #endregion
+
+        #region Oracle helpers (use Oracle.ManagedDataAccess.Client)
+        private static void EnsureOracleTables()
+        {
+            EnsureOracleConfigured();
+
+            var checkUsers = "SELECT COUNT(*) FROM USER_TABLES WHERE TABLE_NAME = 'USERS'";
+            var checkDrinks = "SELECT COUNT(*) FROM USER_TABLES WHERE TABLE_NAME = 'DRINKS'";
+            var checkOrders = "SELECT COUNT(*) FROM USER_TABLES WHERE TABLE_NAME = 'ORDERS'";
+            var checkItems = "SELECT COUNT(*) FROM USER_TABLES WHERE TABLE_NAME = 'ORDER_ITEMS'";
+
+            var r1 = ExecuteScalar(checkUsers);
+            if (r1 == "0")
+            {
+                ExecuteNonQuery("CREATE TABLE USERS (USERNAME VARCHAR2(100) PRIMARY KEY, PASSWORD VARCHAR2(200), EMAIL VARCHAR2(200), PHONE VARCHAR2(50))");
+            }
+            var r2 = ExecuteScalar(checkDrinks);
+            if (r2 == "0")
+            {
+                ExecuteNonQuery("CREATE TABLE DRINKS (ID VARCHAR2(50) PRIMARY KEY, NAME VARCHAR2(200), CATEGORY VARCHAR2(100), PRICE NUMBER(10,2), STOCK NUMBER)");
+            }
+            var r3 = ExecuteScalar(checkOrders);
+            if (r3 == "0")
+            {
+                ExecuteNonQuery("CREATE TABLE ORDERS (ID VARCHAR2(100) PRIMARY KEY, USERNAME VARCHAR2(100), CREATEDAT TIMESTAMP)");
+            }
+            var r4 = ExecuteScalar(checkItems);
+            if (r4 == "0")
+            {
+                ExecuteNonQuery("CREATE TABLE ORDER_ITEMS (ORDERID VARCHAR2(100), DRINKID VARCHAR2(50), DRINKNAME VARCHAR2(200), UNITPRICE NUMBER(10,2), QUANTITY NUMBER)");
+            }
+        }
+
+        private static string ExecuteScalar(string sql, params (string, object)[] parms)
+        {
+            try
+            {
+                using (var con = new OracleConnection(OracleConn))
+                {
+                    con.Open();
+                    using (var cmd = new OracleCommand(sql, con))
+                    {
+                        AddParameters(cmd, parms);
+                        var res = cmd.ExecuteScalar();
+                        return res?.ToString() ?? "0";
+                    }
+                }
+            }
+            catch (Oracle.ManagedDataAccess.Client.OracleException oex) when (oex.Message != null && oex.Message.Contains("ORA-12505"))
+            {
+                // try alternate connection string variant (SERVICE_NAME vs SID)
+                try
+                {
+                    var alt = GetAlternateConnIfNeeded(OracleConn);
+                    if (!string.Equals(alt, OracleConn, StringComparison.Ordinal))
+                    {
+                        LogDebug("ExecuteScalar: detected ORA-12505, trying alternate conn format");
+                        OracleConn = alt; // switch to alternate for subsequent calls
+                        using (var con = new OracleConnection(OracleConn))
+                        {
+                            con.Open();
+                            using (var cmd = new OracleCommand(sql, con))
+                            {
+                                AddParameters(cmd, parms);
+                                var res = cmd.ExecuteScalar();
+                                return res?.ToString() ?? "0";
+                            }
+                        }
+                    }
+                }
+                catch (Exception rex)
+                {
+                    LogDebug("ExecuteScalar: alternate attempt failed -> " + rex.ToString());
+                }
+
+                throw new Exception("Oracle ExecuteScalar failed: " + oex.Message, oex);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Oracle ExecuteScalar failed: " + ex.Message, ex);
+            }
+        }
+
+        private static DataTable ExecuteQuery(string sql, params (string, object)[] parms)
+        {
+            var dt = new DataTable();
+            try
+            {
+                using (var con = new OracleConnection(OracleConn))
+                {
+                    con.Open();
+                    using (var cmd = new OracleCommand(sql, con))
+                    {
+                        AddParameters(cmd, parms);
+                        using (var da = new OracleDataAdapter(cmd))
+                        {
+                            da.Fill(dt);
+                        }
+                    }
+                }
+            }
+            catch (Oracle.ManagedDataAccess.Client.OracleException oex) when (oex.Message != null && oex.Message.Contains("ORA-12505"))
+            {
+                try
+                {
+                    var alt = GetAlternateConnIfNeeded(OracleConn);
+                    if (!string.Equals(alt, OracleConn, StringComparison.Ordinal))
+                    {
+                        LogDebug("ExecuteQuery: detected ORA-12505, trying alternate conn format");
+                        OracleConn = alt;
+                        using (var con = new OracleConnection(OracleConn))
+                        {
+                            con.Open();
+                            using (var cmd = new OracleCommand(sql, con))
+                            {
+                                AddParameters(cmd, parms);
+                                using (var da = new OracleDataAdapter(cmd))
+                                {
+                                    da.Fill(dt);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception rex)
+                {
+                    LogDebug("ExecuteQuery: alternate attempt failed -> " + rex.ToString());
+                }
+
+                throw new Exception("Oracle ExecuteQuery failed: " + oex.Message, oex);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Oracle ExecuteQuery failed: " + ex.Message, ex);
+            }
+            return dt;
+        }
+
+        private static int ExecuteNonQuery(string sql, params (string, object)[] parms)
+        {
+            try
+            {
+                using (var con = new OracleConnection(OracleConn))
+                {
+                    con.Open();
+                    using (var cmd = new OracleCommand(sql, con))
+                    {
+                        AddParameters(cmd, parms);
+                        return cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Oracle.ManagedDataAccess.Client.OracleException oex) when (oex.Message != null && oex.Message.Contains("ORA-12505"))
+            {
+                try
+                {
+                    var alt = GetAlternateConnIfNeeded(OracleConn);
+                    if (!string.Equals(alt, OracleConn, StringComparison.Ordinal))
+                    {
+                        LogDebug("ExecuteNonQuery: detected ORA-12505, trying alternate conn format");
+                        OracleConn = alt;
+                        using (var con = new OracleConnection(OracleConn))
+                        {
+                            con.Open();
+                            using (var cmd = new OracleCommand(sql, con))
+                            {
+                                AddParameters(cmd, parms);
+                                return cmd.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                }
+                catch (Exception rex)
+                {
+                    LogDebug("ExecuteNonQuery: alternate attempt failed -> " + rex.ToString());
+                }
+
+                throw new Exception("Oracle ExecuteNonQuery failed: " + oex.Message, oex);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Oracle ExecuteNonQuery failed: " + ex.Message, ex);
+            }
+        }
+
+        private static void AddParameters(OracleCommand cmd, params (string, object)[] parms)
+        {
+            if (parms == null) return;
+            foreach (var p in parms)
+            {
+                var name = p.Item1 ?? string.Empty;
+                if (name.StartsWith(":")) name = name.Substring(1);
+                if (name.StartsWith("@")) name = name.Substring(1);
+                var prm = new OracleParameter(name, p.Item2 ?? DBNull.Value);
+                cmd.Parameters.Add(prm);
+            }
+        }
+        #endregion
+
+        private static List<Drink> GetDefaultDrinks()
+        {
+            return new List<Drink>
+            {
+                new Drink { Id = "1", Name = "珍珠奶茶", Category = "奶茶", Price = 12, Stock = 100 },
+                new Drink { Id = "2", Name = "波霸奶茶", Category = "奶茶", Price = 13, Stock = 80 },
+                new Drink { Id = "3", Name = "芋圆奶茶", Category = "奶茶", Price = 14, Stock = 60 },
+                new Drink { Id = "4", Name = "柠檬果茶", Category = "果茶", Price = 10, Stock = 50 },
+                new Drink { Id = "5", Name = "美式咖啡", Category = "咖啡", Price = 15, Stock = 40 }
+            };
+        }
+    }
+}

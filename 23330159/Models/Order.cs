@@ -1,0 +1,31 @@
+using System;
+using System.Collections.Generic;
+
+namespace _23330159.Models
+{
+    public class OrderItem
+    {
+        public string DrinkId { get; set; }
+        public string DrinkName { get; set; }
+        public decimal UnitPrice { get; set; }
+        public int Quantity { get; set; }
+    }
+
+    public class Order
+    {
+        public string Id { get; set; }
+        public string Username { get; set; }
+        public string PhoneNumber { get; set; } // new: phone of the ordering user
+        public DateTime CreatedAt { get; set; }
+        public List<OrderItem> Items { get; set; } = new List<OrderItem>();
+        public decimal Total { get; set; } // made settable to assign from DB
+
+        private decimal ComputeTotal()
+        {
+            decimal sum = 0;
+            foreach (var it in Items)
+                sum += it.UnitPrice * it.Quantity;
+            return sum;
+        }
+    }
+}

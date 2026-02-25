@@ -1,0 +1,80 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+
+namespace _23330159
+{
+    public partial class sign_up : Form
+    {
+        public bool RegistrationSuccessful { get; private set; }
+        public string Username { get; private set; }
+        public sign_up()
+        {
+            InitializeComponent();
+            RegistrationSuccessful = false; // 默认注册不成功
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // 1. 验证用户输入
+            if (string.IsNullOrEmpty(txtUsername.Text) ||
+                string.IsNullOrEmpty(txtPassword.Text))
+            {
+                MessageBox.Show("请输入用户名和密码", "错误",
+                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 2. 检查两次密码是否一致（如果有确认密码框）
+            if (txtPassword.Text != txtConfirmPassword.Text)
+            {
+                MessageBox.Show("两次输入的密码不一致", "错误",
+                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 3. 这里可以添加更多验证逻辑，如用户名是否已存在等
+
+            try
+            {
+                // 4. 执行注册逻辑（例如保存到数据库）
+                // TODO: 这里添加实际的注册代码
+
+                // 5. 设置注册结果
+                this.Username = txtUsername.Text;
+                this.RegistrationSuccessful = true;
+
+                // 6. 显示成功消息
+                MessageBox.Show("注册成功！", "成功",
+                               MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // 7. 关闭注册窗体并返回OK
+                this.DialogResult = DialogResult.OK;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"注册失败：{ex.Message}", "错误",
+                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+        }
+
+        private void txtUsername_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+    }
+}

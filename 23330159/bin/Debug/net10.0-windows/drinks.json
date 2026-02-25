@@ -1,0 +1,37 @@
+[
+  {
+    "Id": "1",
+    "Name": "\u73CD\u73E0\u5976\u8336",
+    "Category": "\u5976\u8336",
+    "Price": 12,
+    "Stock": 97
+  },
+  {
+    "Id": "2",
+    "Name": "\u6CE2\u9738\u5976\u8336",
+    "Category": "\u5976\u8336",
+    "Price": 13,
+    "Stock": 70
+  },
+  {
+    "Id": "3",
+    "Name": "\u828B\u5706\u5976\u8336",
+    "Category": "\u5976\u8336",
+    "Price": 14,
+    "Stock": 60
+  },
+  {
+    "Id": "4",
+    "Name": "\u67E0\u6AAC\u679C\u8336",
+    "Category": "\u679C\u8336",
+    "Price": 10,
+    "Stock": 50
+  },
+  {
+    "Id": "5",
+    "Name": "\u7F8E\u5F0F\u5496\u5561",
+    "Category": "\u5496\u5561",
+    "Price": 15,
+    "Stock": 39
+  }
+]

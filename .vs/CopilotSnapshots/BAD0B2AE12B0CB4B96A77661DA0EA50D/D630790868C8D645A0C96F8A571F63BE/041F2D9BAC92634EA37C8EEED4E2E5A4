@@ -1,0 +1,66 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+
+namespace _23330159
+{
+    public partial class Main : Form
+    {
+        //private string currentUserName;
+        public Main()
+        {
+            InitializeComponent();
+        }
+        //// 修改构造函数，接收用户名参数
+        //public Main(string username)
+        //{
+        //    InitializeComponent();
+
+        //    // 保存用户名
+        //    currentUserName = username;
+
+        //    // 在面上显示当前用户
+        //    lblCurrentUser.Text = $"当前用户: {username}";
+
+        //    // 加载数据
+        //    LoadInitialData();
+        //}
+
+        //private void LoadInitialData()
+        //{
+        //    // TODO: 加载饮品分类、饮品列表等数据
+        //    LoadCategories();
+        //    LoadDrinks("奶茶");
+        //}
+
+        //private void LoadCategories()
+        //{
+        //    // 加载饮品分类到下拉框
+        //    cmbCategory.Items.Add("奶茶");
+        //    cmbCategory.Items.Add("果茶");
+        //    cmbCategory.Items.Add("咖啡");
+        //    cmbCategory.Items.Add("冰沙");
+        //    cmbCategory.SelectedIndex = 0;
+        //}
+
+        //private void LoadDrinks(string category)
+        //{
+        //    // TODO: 根据分类从数据库加载饮品
+        //    // 这里先添加示例数据
+        //    dgvDrinks.Rows.Clear();
+        //    dgvDrinks.Rows.Add("1", "珍珠奶茶", "奶茶", "12.00", "100");
+        //    dgvDrinks.Rows.Add("2", "波霸奶茶", "奶茶", "13.00", "80");
+        //    dgvDrinks.Rows.Add("3", "芋圆奶茶", "奶茶14.00", "60");
+        //}
+
+        //// 主窗口关闭时退出程序
+        private void FrmMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit(); // 确保程序完全退出
+        }
+    }
+}

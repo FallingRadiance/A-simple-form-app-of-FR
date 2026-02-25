@@ -1,0 +1,78 @@
+[
+  {
+    "Id": "9de5e071-a415-4b43-9b07-6700f09fa1ca",
+    "Username": "1",
+    "CreatedAt": "2025-12-16T19:28:03.992654+08:00",
+    "Items": [
+      {
+        "DrinkId": "1",
+        "DrinkName": "\u73CD\u73E0\u5976\u8336",
+        "UnitPrice": 12,
+        "Quantity": 1
+      },
+      {
+        "DrinkId": "2",
+        "DrinkName": "\u6CE2\u9738\u5976\u8336",
+        "UnitPrice": 13,
+        "Quantity": 4
+      }
+    ],
+    "Total": 64
+  },
+  {
+    "Id": "ef3948c5-c67c-4217-85ec-a5340bb28997",
+    "Username": "1",
+    "CreatedAt": "2025-12-16T19:28:41.8495172+08:00",
+    "Items": [
+      {
+        "DrinkId": "2",
+        "DrinkName": "\u6CE2\u9738\u5976\u8336",
+        "UnitPrice": 13,
+        "Quantity": 6
+      }
+    ],
+    "Total": 78
+  },
+  {
+    "Id": "00a600ba-7a5e-4326-91f3-b294541db84e",
+    "Username": "1",
+    "CreatedAt": "2025-12-16T19:55:08.7906565+08:00",
+    "Items": [
+      {
+        "DrinkId": "5",
+        "DrinkName": "\u7F8E\u5F0F\u5496\u5561",
+        "UnitPrice": 15,
+        "Quantity": 1
+      }
+    ],
+    "Total": 15
+  },
+  {
+    "Id": "971cf8e9-4a95-43b9-80fa-eb3a1d5ef6a3",
+    "Username": "1",
+    "CreatedAt": "2025-12-18T19:46:42.0354628+08:00",
+    "Items": [
+      {
+        "DrinkId": "1",
+        "DrinkName": "\u73CD\u73E0\u5976\u8336",
+        "UnitPrice": 12,
+        "Quantity": 1
+      }
+    ],
+    "Total": 12
+  },
+  {
+    "Id": "0e4e7be4-000c-40ff-b816-cd464256f169",
+    "Username": "2",
+    "CreatedAt": "2025-12-18T19:47:39.3988234+08:00",
+    "Items": [
+      {
+        "DrinkId": "1",
+        "DrinkName": "\u73CD\u73E0\u5976\u8336",
+        "UnitPrice": 12,
+        "Quantity": 1
+      }
+    ],
+    "Total": 12
+  }
+]

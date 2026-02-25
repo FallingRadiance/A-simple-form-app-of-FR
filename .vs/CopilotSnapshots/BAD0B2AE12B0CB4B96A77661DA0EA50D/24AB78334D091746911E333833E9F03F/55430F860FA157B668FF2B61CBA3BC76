@@ -1,0 +1,337 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.Json;
+using System.Data;
+using System.Data.Common;
+using _23330159.Models;
+
+namespace _23330159.Data
+{
+    public static class DataStore
+    {
+        private static readonly string BaseDir = AppDomain.CurrentDomain.BaseDirectory;
+        private static readonly string UsersFile = Path.Combine(BaseDir, "users.json");
+        private static readonly string DrinksFile = Path.Combine(BaseDir, "drinks.json");
+        private static readonly string OrdersFile = Path.Combine(BaseDir, "orders.json");
+
+        private static readonly JsonSerializerOptions opts = new JsonSerializerOptions { WriteIndented = true };
+
+        // Oracle config via environment variables
+        private static readonly string OracleConn = Environment.GetEnvironmentVariable("ORACLE_CONN");
+        private static readonly string OracleProvider = Environment.GetEnvironmentVariable("ORACLE_PROVIDER") ?? "Oracle.ManagedDataAccess.Client";
+        private static readonly bool UseOracle = !string.IsNullOrEmpty(OracleConn);
+
+        #region Users
+        public static List<User> LoadUsers()
+        {
+            if (UseOracle)
+            {
+                try
+                {
+                    EnsureOracleTables();
+                    var dt = ExecuteQuery("SELECT USERNAME, PASSWORD, EMAIL, PHONE FROM USERS");
+                    var users = new List<User>();
+                    foreach (DataRow r in dt.Rows)
+                    {
+                        users.Add(new User
+                        {
+                            Username = r["USERNAME"].ToString(),
+                            Password = r["PASSWORD"].ToString(),
+                            Email = r["EMAIL"].ToString(),
+                            PhoneNumber = r["PHONE"].ToString()
+                        });
+                    }
+                    return users;
+                }
+                catch
+                {
+                    // fallback to file
+                }
+            }
+
+            if (!File.Exists(UsersFile)) return new List<User>();
+            var txt = File.ReadAllText(UsersFile);
+            return JsonSerializer.Deserialize<List<User>>(txt) ?? new List<User>();
+        }
+
+        public static void SaveUsers(List<User> users)
+        {
+            if (UseOracle)
+            {
+                try
+                {
+                    EnsureOracleTables();
+                    // simple approach: clear table then insert
+                    ExecuteNonQuery("DELETE FROM USERS");
+                    foreach (var u in users)
+                    {
+                        ExecuteNonQuery("INSERT INTO USERS (USERNAME, PASSWORD, EMAIL, PHONE) VALUES (:u, :p, :e, :ph)",
+                            (":u", u.Username), (":p", u.Password), (":e", u.Email ?? string.Empty), (":ph", u.PhoneNumber ?? string.Empty));
+                    }
+                    return;
+                }
+                catch
+                {
+                    // fallback to file
+                }
+            }
+
+            File.WriteAllText(UsersFile, JsonSerializer.Serialize(users, opts));
+        }
+        #endregion
+
+        #region Drinks
+        public static List<Drink> LoadDrinks()
+        {
+            if (UseOracle)
+            {
+                try
+                {
+                    EnsureOracleTables();
+                    var dt = ExecuteQuery("SELECT ID, NAME, CATEGORY, PRICE, STOCK FROM DRINKS");
+                    var list = new List<Drink>();
+                    foreach (DataRow r in dt.Rows)
+                    {
+                        list.Add(new Drink
+                        {
+                            Id = r["ID"].ToString(),
+                            Name = r["NAME"].ToString(),
+                            Category = r["CATEGORY"].ToString(),
+                            Price = decimal.TryParse(r["PRICE"].ToString(), out var p) ? p : 0,
+                            Stock = int.TryParse(r["STOCK"].ToString(), out var s) ? s : 0
+                        });
+                    }
+                    if (list.Count > 0) return list;
+                }
+                catch
+                {
+                    // fallback
+                }
+            }
+
+            if (!File.Exists(DrinksFile))
+            {
+                var defaults = GetDefaultDrinks();
+                SaveDrinks(defaults);
+                return defaults;
+            }
+
+            var txt = File.ReadAllText(DrinksFile);
+            return JsonSerializer.Deserialize<List<Drink>>(txt) ?? new List<Drink>();
+        }
+
+        public static void SaveDrinks(List<Drink> drinks)
+        {
+            if (UseOracle)
+            {
+                try
+                {
+                    EnsureOracleTables();
+                    ExecuteNonQuery("DELETE FROM DRINKS");
+                    foreach (var d in drinks)
+                    {
+                        ExecuteNonQuery("INSERT INTO DRINKS (ID, NAME, CATEGORY, PRICE, STOCK) VALUES (:id, :name, :cat, :price, :stock)",
+                            (":id", d.Id), (":name", d.Name), (":cat", d.Category), (":price", d.Price), (":stock", d.Stock));
+                    }
+                    return;
+                }
+                catch
+                {
+                    // fallback
+                }
+            }
+
+            File.WriteAllText(DrinksFile, JsonSerializer.Serialize(drinks, opts));
+        }
+        #endregion
+
+        #region Orders
+        public static List<Order> LoadOrders()
+        {
+            if (UseOracle)
+            {
+                try
+                {
+                    EnsureOracleTables();
+                    var dt = ExecuteQuery("SELECT ID, USERNAME, CREATEDAT FROM ORDERS ORDER BY CREATEDAT DESC");
+                    var orders = new List<Order>();
+                    foreach (DataRow r in dt.Rows)
+                    {
+                        var id = r["ID"].ToString();
+                        var o = new Order { Id = id, Username = r["USERNAME"].ToString(), CreatedAt = DateTime.Parse(r["CREATEDAT"].ToString()) };
+                        var itemsDt = ExecuteQuery("SELECT DRINKID, DRINKNAME, UNITPRICE, QUANTITY FROM ORDER_ITEMS WHERE ORDERID = :oid", (":oid", id));
+                        foreach (DataRow ir in itemsDt.Rows)
+                        {
+                            o.Items.Add(new OrderItem { DrinkId = ir["DRINKID"].ToString(), DrinkName = ir["DRINKNAME"].ToString(), UnitPrice = decimal.Parse(ir["UNITPRICE"].ToString()), Quantity = int.Parse(ir["QUANTITY"].ToString()) });
+                        }
+                        orders.Add(o);
+                    }
+                    return orders;
+                }
+                catch
+                {
+                    // fallback
+                }
+            }
+
+            if (!File.Exists(OrdersFile)) return new List<Order>();
+            var txt = File.ReadAllText(OrdersFile);
+            return JsonSerializer.Deserialize<List<Order>>(txt) ?? new List<Order>();
+        }
+
+        public static void SaveOrders(List<Order> orders)
+        {
+            if (UseOracle)
+            {
+                try
+                {
+                    EnsureOracleTables();
+                    ExecuteNonQuery("DELETE FROM ORDER_ITEMS");
+                    ExecuteNonQuery("DELETE FROM ORDERS");
+                    foreach (var o in orders)
+                    {
+                        ExecuteNonQuery("INSERT INTO ORDERS (ID, USERNAME, CREATEDAT) VALUES (:id, :user, :ca)", (":id", o.Id), (":user", o.Username), (":ca", o.CreatedAt));
+                        foreach (var it in o.Items)
+                        {
+                            ExecuteNonQuery("INSERT INTO ORDER_ITEMS (ORDERID, DRINKID, DRINKNAME, UNITPRICE, QUANTITY) VALUES (:oid, :did, :dname, :price, :qty)",
+                                (":oid", o.Id), (":did", it.DrinkId), (":dname", it.DrinkName), (":price", it.UnitPrice), (":qty", it.Quantity));
+                        }
+                    }
+                    return;
+                }
+                catch
+                {
+                    // fallback
+                }
+            }
+
+            File.WriteAllText(OrdersFile, JsonSerializer.Serialize(orders, opts));
+        }
+        #endregion
+
+        #region Oracle helpers (best-effort, fallback to JSON on error)
+        private static void EnsureOracleTables()
+        {
+            if (!UseOracle) return;
+            // Create tables if they do not exist (Oracle: check user_tables)
+            var checkUsers = "SELECT COUNT(*) AS CNT FROM USER_TABLES WHERE TABLE_NAME = 'USERS'";
+            var checkDrinks = "SELECT COUNT(*) AS CNT FROM USER_TABLES WHERE TABLE_NAME = 'DRINKS'";
+            var checkOrders = "SELECT COUNT(*) AS CNT FROM USER_TABLES WHERE TABLE_NAME = 'ORDERS'";
+            var checkItems = "SELECT COUNT(*) AS CNT FROM USER_TABLES WHERE TABLE_NAME = 'ORDER_ITEMS'";
+
+            try
+            {
+                var r1 = ExecuteScalar(checkUsers);
+                if (r1 == "0")
+                {
+                    ExecuteNonQuery("CREATE TABLE USERS (USERNAME VARCHAR2(100) PRIMARY KEY, PASSWORD VARCHAR2(200), EMAIL VARCHAR2(200), PHONE VARCHAR2(50))");
+                }
+                var r2 = ExecuteScalar(checkDrinks);
+                if (r2 == "0")
+                {
+                    ExecuteNonQuery("CREATE TABLE DRINKS (ID VARCHAR2(50) PRIMARY KEY, NAME VARCHAR2(200), CATEGORY VARCHAR2(100), PRICE NUMBER(10,2), STOCK NUMBER)");
+                }
+                var r3 = ExecuteScalar(checkOrders);
+                if (r3 == "0")
+                {
+                    ExecuteNonQuery("CREATE TABLE ORDERS (ID VARCHAR2(100) PRIMARY KEY, USERNAME VARCHAR2(100), CREATEDAT TIMESTAMP)");
+                }
+                var r4 = ExecuteScalar(checkItems);
+                if (r4 == "0")
+                {
+                    ExecuteNonQuery("CREATE TABLE ORDER_ITEMS (ORDERID VARCHAR2(100), DRINKID VARCHAR2(50), DRINKNAME VARCHAR2(200), UNITPRICE NUMBER(10,2), QUANTITY NUMBER)");
+                }
+            }
+            catch
+            {
+                // If any Oracle operation fails, propagate to caller who will fallback
+                throw;
+            }
+        }
+
+        private static string ExecuteScalar(string sql, params (string, object)[] parms)
+        {
+            var dt = ExecuteQuery(sql, parms);
+            if (dt.Rows.Count == 0) return "0";
+            return dt.Rows[0][0].ToString();
+        }
+
+        private static DataTable ExecuteQuery(string sql, params (string, object)[] parms)
+        {
+            var dt = new DataTable();
+            var factory = GetFactory();
+            using (var con = factory.CreateConnection())
+            {
+                con.ConnectionString = OracleConn;
+                con.Open();
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = sql;
+                    foreach (var p in parms)
+                    {
+                        var prm = cmd.CreateParameter();
+                        prm.ParameterName = p.Item1;
+                        prm.Value = p.Item2 ?? DBNull.Value;
+                        cmd.Parameters.Add(prm);
+                    }
+                    using (var da = factory.CreateDataAdapter())
+                    {
+                        da.SelectCommand = cmd;
+                        da.Fill(dt);
+                    }
+                }
+            }
+            return dt;
+        }
+
+        private static int ExecuteNonQuery(string sql, params (string, object)[] parms)
+        {
+            var factory = GetFactory();
+            using (var con = factory.CreateConnection())
+            {
+                con.ConnectionString = OracleConn;
+                con.Open();
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = sql;
+                    foreach (var p in parms)
+                    {
+                        var prm = cmd.CreateParameter();
+                        prm.ParameterName = p.Item1;
+                        prm.Value = p.Item2 ?? DBNull.Value;
+                        cmd.Parameters.Add(prm);
+                    }
+                    return cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private static DbProviderFactory GetFactory()
+        {
+            try
+            {
+                return DbProviderFactories.GetFactory(OracleProvider);
+            }
+            catch
+            {
+                // If factory not registered, try to use System.Data.OracleClient style fallback will fail on .NET Core
+                throw;
+            }
+        }
+        #endregion
+
+        private static List<Drink> GetDefaultDrinks()
+        {
+            return new List<Drink>
+            {
+                new Drink { Id = "1", Name = "珍珠奶茶", Category = "奶茶", Price = 12, Stock = 100 },
+                new Drink { Id = "2", Name = "波霸奶茶", Category = "奶茶", Price = 13, Stock = 80 },
+                new Drink { Id = "3", Name = "芋圆奶茶", Category = "奶茶", Price = 14, Stock = 60 },
+                new Drink { Id = "4", Name = "柠檬果茶", Category = "果茶", Price = 10, Stock = 50 },
+                new Drink { Id = "5", Name = "美式咖啡", Category = "咖啡", Price = 15, Stock = 40 }
+            };
+        }
+    }
+}

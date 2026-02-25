@@ -1,0 +1,73 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.Json;
+using _23330159.Models;
+
+namespace _23330159.Data
+{
+    public static class DataStore
+    {
+        private static readonly string BaseDir = AppDomain.CurrentDomain.BaseDirectory;
+        private static readonly string UsersFile = Path.Combine(BaseDir, "users.json");
+        private static readonly string DrinksFile = Path.Combine(BaseDir, "drinks.json");
+        private static readonly string OrdersFile = Path.Combine(BaseDir, "orders.json");
+
+        private static readonly JsonSerializerOptions opts = new JsonSerializerOptions { WriteIndented = true };
+
+        public static List<User> LoadUsers()
+        {
+            if (!File.Exists(UsersFile)) return new List<User>();
+            var txt = File.ReadAllText(UsersFile);
+            return JsonSerializer.Deserialize<List<User>>(txt) ?? new List<User>();
+        }
+
+        public static void SaveUsers(List<User> users)
+        {
+            File.WriteAllText(UsersFile, JsonSerializer.Serialize(users, opts));
+        }
+
+        public static List<Drink> LoadDrinks()
+        {
+            if (!File.Exists(DrinksFile))
+            {
+                var defaults = GetDefaultDrinks();
+                SaveDrinks(defaults);
+                return defaults;
+            }
+
+            var txt = File.ReadAllText(DrinksFile);
+            return JsonSerializer.Deserialize<List<Drink>>(txt) ?? new List<Drink>();
+        }
+
+        public static void SaveDrinks(List<Drink> drinks)
+        {
+            File.WriteAllText(DrinksFile, JsonSerializer.Serialize(drinks, opts));
+        }
+
+        public static List<Order> LoadOrders()
+        {
+            if (!File.Exists(OrdersFile)) return new List<Order>();
+            var txt = File.ReadAllText(OrdersFile);
+            return JsonSerializer.Deserialize<List<Order>>(txt) ?? new List<Order>();
+        }
+
+        public static void SaveOrders(List<Order> orders)
+        {
+            File.WriteAllText(OrdersFile, JsonSerializer.Serialize(orders, opts));
+        }
+
+        private static List<Drink> GetDefaultDrinks()
+        {
+            return new List<Drink>
+            {
+                new Drink { Id = "1", Name = "珍珠奶茶", Category = "奶茶", Price = 12, Stock = 100 },
+                new Drink { Id = "2", Name = "波霸奶茶", Category = "奶茶", Price = 13, Stock = 80 },
+                new Drink { Id = "3", Name = "芋圆奶茶", Category = "奶茶", Price = 14, Stock = 60 },
+                new Drink { Id = "4", Name = "柠檬果茶", Category = "果茶", Price = 10, Stock = 50 },
+                new Drink { Id = "5", Name = "美式咖啡", Category = "咖啡", Price = 15, Stock = 40 }
+            };
+        }
+    }
+}

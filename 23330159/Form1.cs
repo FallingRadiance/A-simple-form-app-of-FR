@@ -1,0 +1,66 @@
+namespace _23330159
+{
+    public partial class Form1 : Form
+    {
+        public string LoggedInUsername { get; private set; }
+
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_signIn_Click(object sender, EventArgs e)
+        {
+            bool SignIn_Right(string username, string password)
+            {
+                var users = Data.DataStore.LoadUsers();
+                var uname = (username ?? string.Empty).Trim();
+                var pwd = password ?? string.Empty; // do not trim passwords aggressively
+                var matched = users.Exists(u => (u.Username ?? string.Empty).Trim().Equals(uname, StringComparison.OrdinalIgnoreCase)
+                                              && (u.Password ?? string.Empty) == pwd);
+                return matched;
+            }
+
+            // 密码正确就登录
+            if (SignIn_Right(userNameBox.Text, PassWordBox.Text))
+            {
+                // Set logged-in username and close the login dialog with OK so Program.Main will start the main form
+                LoggedInUsername = userNameBox.Text.Trim();
+                this.DialogResult = DialogResult.OK;
+            }// 密码错误时弹窗
+            else
+            {
+                MessageBox.Show("用户名或密码错误，登录失败", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                // 清空密码框，让用户重新输入
+                PassWordBox.Text = "";
+                PassWordBox.Focus();
+            }
+        }
+
+
+        private void btn_signUp_Click(object sender, EventArgs e)
+        {
+            // 创建注册窗体实例
+            sign_up signUpForm = new sign_up();
+
+            // 显示注册窗体（模态方式，用户必须处理完注册才能返回）
+            var dr = signUpForm.ShowDialog();
+            if (dr == DialogResult.OK && signUpForm.RegistrationSuccessful)
+            {
+                MessageBox.Show($"用户 {signUpForm.Username} 注册成功，可以登录", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
+}

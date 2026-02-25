@@ -1,0 +1,179 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+using _23330159.Data;
+using _23330159.Models;
+
+namespace _23330159
+{
+    public partial class Main : Form
+    {
+        private string currentUserName;
+        private List<Drink> drinks = new List<Drink>();
+        private List<OrderItem> cart = new List<OrderItem>();
+
+        public Main()
+        {
+            InitializeComponent();
+            InitUI();
+        }
+
+        // 修改构造函数，接收用户名参数
+        public Main(string username) : this()
+        {
+            currentUserName = username;
+            // 在界面上显示当前用户
+            label2.Text = "当前用户：" + username;
+            LoadInitialData();
+        }
+
+        private void InitUI()
+        {
+            comboBox1.SelectedIndex = 0;
+            // 设置dataGridView2（饮品列表）列
+            dataGridView2.Columns.Clear();
+            dataGridView2.Columns.Add("Id", "Id");
+            dataGridView2.Columns.Add("Name", "名称");
+            dataGridView2.Columns.Add("Category", "分类");
+            dataGridView2.Columns.Add("Price", "价格");
+            dataGridView2.Columns.Add("Stock", "库存");
+
+            // 设置dataGridView1（购物车）列
+            dataGridView1.Columns.Clear();
+            dataGridView1.Columns.Add("Name", "名称");
+            dataGridView1.Columns.Add("UnitPrice", "单价");
+            dataGridView1.Columns.Add("Quantity", "数量");
+            dataGridView1.Columns.Add("Subtotal", "小计");
+
+            // 按钮事件
+            button1.Click += Button1_Click; // 查看历史订单
+            button2.Click += Button2_Click; // 加入购物车
+            button3.Click += Button3_Click; // 下单
+            button4.Click += Button4_Click; // 清除购物车
+            comboBox1.SelectedIndexChanged += ComboBox1_SelectedIndexChanged;
+        }
+
+        private void LoadInitialData()
+        {
+            drinks = DataStore.LoadDrinks();
+            RefreshDrinksGrid("全部");
+        }
+
+        private void RefreshDrinksGrid(string category)
+        {
+            dataGridView2.Rows.Clear();
+            IEnumerable<Drink> list = drinks;
+            if (!string.IsNullOrEmpty(category) && category != "全部")
+                list = drinks.FindAll(d => d.Category == category);
+
+            foreach (var d in list)
+            {
+                dataGridView2.Rows.Add(d.Id, d.Name, d.Category, d.Price.ToString("F2"), d.Stock);
+            }
+        }
+
+        private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var cat = comboBox1.SelectedItem?.ToString() ?? "全部";
+            RefreshDrinksGrid(cat);
+        }
+
+        private void Button2_Click(object sender, EventArgs e)
+        {
+            // 添加当前选中饮品到购物车
+            if (dataGridView2.CurrentRow == null) return;
+            var id = dataGridView2.CurrentRow.Cells[0].Value?.ToString();
+            var drink = drinks.Find(d => d.Id == id);
+            if (drink == null) return;
+
+            int qty = (int)numericUpDown1.Value;
+            if (qty <= 0)
+            {
+                MessageBox.Show("数量必须大于0", "错误", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // 检查库存
+            var alreadyInCart = cart.Find(ci => ci.DrinkId == drink.Id);
+            int existingQty = alreadyInCart?.Quantity ?? 0;
+            if (existingQty + qty > drink.Stock)
+            {
+                MessageBox.Show("选择的数量超过库存", "错误", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (alreadyInCart != null)
+            {
+                alreadyInCart.Quantity += qty;
+            }
+            else
+            {
+                cart.Add(new OrderItem { DrinkId = drink.Id, DrinkName = drink.Name, UnitPrice = drink.Price, Quantity = qty });
+            }
+
+            RefreshCartGrid();
+        }
+
+        private void RefreshCartGrid()
+        {
+            dataGridView1.Rows.Clear();
+            foreach (var it in cart)
+            {
+                dataGridView1.Rows.Add(it.DrinkName, it.UnitPrice.ToString("F2"), it.Quantity, (it.UnitPrice * it.Quantity).ToString("F2"));
+            }
+        }
+
+        private void Button4_Click(object sender, EventArgs e)
+        {
+            cart.Clear();
+            RefreshCartGrid();
+        }
+
+        private void Button3_Click(object sender, EventArgs e)
+        {
+            if (cart.Count == 0)
+            {
+                MessageBox.Show("购物车为空", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // 创建订单，减少库存，保存
+            var orders = DataStore.LoadOrders();
+            var order = new Models.Order { Id = Guid.NewGuid().ToString(), Username = currentUserName ?? "匿名", CreatedAt = DateTime.Now };
+            foreach (var ci in cart)
+            {
+                order.Items.Add(new Models.OrderItem { DrinkId = ci.DrinkId, DrinkName = ci.DrinkName, UnitPrice = ci.UnitPrice, Quantity = ci.Quantity });
+                // 减库存
+                var d = drinks.Find(x => x.Id == ci.DrinkId);
+                if (d != null) d.Stock -= ci.Quantity;
+            }
+            orders.Add(order);
+            DataStore.SaveOrders(orders);
+            DataStore.SaveDrinks(drinks);
+
+            cart.Clear();
+            RefreshCartGrid();
+            RefreshDrinksGrid(comboBox1.SelectedItem?.ToString() ?? "全部");
+
+            MessageBox.Show($"下单成功，订单号：{order.Id}\n总价：{order.Total:F2}", "成功", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            // 查看历史订单
+            var frm = new dingdan(currentUserName);
+            frm.StartPosition = FormStartPosition.CenterParent;
+            frm.ShowDialog();
+        }
+
+        // 主窗口关闭时退出程序
+        private void FrmMain_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit(); // 确保程序完全退出
+        }
+    }
+}

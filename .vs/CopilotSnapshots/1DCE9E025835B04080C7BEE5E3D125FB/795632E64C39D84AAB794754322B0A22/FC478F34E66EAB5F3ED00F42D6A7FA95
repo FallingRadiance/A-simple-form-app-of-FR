@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <RootNamespace>_23330159</RootNamespace>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.130" />
+  </ItemGroup>
+
+  <!-- Exclude duplicate resource causing MSB3577 -->
+  <ItemGroup>
+    <EmbeddedResource Remove="dingdan.Events.resx" />
+    <None Remove="dingdan.Events.resx" />
+  </ItemGroup>
+
+  <!-- Re-include resources explicitly with unique logical names to prevent duplicate output paths -->
+  <ItemGroup>
+    <EmbeddedResource Include="dingdan.resx">
+      <LogicalName>_23330159.dingdan_main.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="dingdan.Events.resx">
+      <LogicalName>_23330159.dingdan_events.resources</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
